@@ -211,7 +211,7 @@ class Chunker {
 					let nodes = rendered.querySelectorAll(rule.selectorText);
 					nodes.forEach((node) => {
 						let attribName = i.substring(0, 1).toUpperCase() + i.substring(2);
-						delete(node.dataset[`original${attribName}`]);
+						delete (node.dataset[`original${attribName}`]);
 					})
 				}
 			}
@@ -304,7 +304,7 @@ class Chunker {
 		while (!done) {
 			result = await this.q.enqueue(() => { return this.renderAsync(renderer); });
 			done = result.done;
-			if(MAX_LAYOUTS) {
+			if (MAX_LAYOUTS) {
 				loops += 1;
 				if (loops >= MAX_LAYOUTS) {
 					this.stop();
@@ -368,34 +368,34 @@ class Chunker {
 		}
 
 		if (node &&
-				typeof node.dataset !== "undefined" &&
-				typeof node.dataset.previousBreakAfter !== "undefined") {
+			typeof node.dataset !== "undefined" &&
+			typeof node.dataset.previousBreakAfter !== "undefined") {
 			previousBreakAfter = node.dataset.previousBreakAfter;
 		}
 
 		if (node &&
-				typeof node.dataset !== "undefined" &&
-				typeof node.dataset.breakBefore !== "undefined") {
+			typeof node.dataset !== "undefined" &&
+			typeof node.dataset.breakBefore !== "undefined") {
 			breakBefore = node.dataset.breakBefore;
 		}
 
 		if (force) {
 			page = this.addPage(true);
-		} else if( previousBreakAfter &&
-				(previousBreakAfter === "left" || previousBreakAfter === "right") &&
-				previousBreakAfter !== currentPosition) {
+		} else if (previousBreakAfter &&
+			(previousBreakAfter === "left" || previousBreakAfter === "right") &&
+			previousBreakAfter !== currentPosition) {
 			page = this.addPage(true);
-		} else if( previousBreakAfter &&
-				(previousBreakAfter === "verso" || previousBreakAfter === "recto") &&
-				previousBreakAfter !== currentSide) {
+		} else if (previousBreakAfter &&
+			(previousBreakAfter === "verso" || previousBreakAfter === "recto") &&
+			previousBreakAfter !== currentSide) {
 			page = this.addPage(true);
-		} else if( breakBefore &&
-				(breakBefore === "left" || breakBefore === "right") &&
-				breakBefore !== currentPosition) {
+		} else if (breakBefore &&
+			(breakBefore === "left" || breakBefore === "right") &&
+			breakBefore !== currentPosition) {
 			page = this.addPage(true);
-		} else if( breakBefore &&
-				(breakBefore === "verso" || breakBefore === "recto") &&
-				breakBefore !== currentSide) {
+		} else if (breakBefore &&
+			(breakBefore === "verso" || breakBefore === "recto") &&
+			breakBefore !== currentSide) {
 			page = this.addPage(true);
 		}
 
@@ -488,7 +488,7 @@ class Chunker {
 		this.maxChars = this.charsPerBreak.reduce((a, b) => a + b, 0) / (this.charsPerBreak.length);
 	}
 
-	removePages(fromIndex=0) {
+	removePages(fromIndex = 0) {
 
 		if (fromIndex >= this.pages.length) {
 			return;

@@ -41,6 +41,8 @@ export function* walk(start, limiter) {
 }
 
 export function nodeAfter(node, limiter, descend = false) {
+	if (!node) return;
+
 	if (limiter && node === limiter) {
 		return;
 	}
@@ -247,7 +249,7 @@ export function rebuildTableRow(node, alreadyRendered, existingChildren) {
 	return rebuilt;
 }
 
-export function rebuildTree (node, fragment, alreadyRendered) {
+export function rebuildTree(node, fragment, alreadyRendered) {
 	let parent, subject;
 	let ancestors = [];
 	let added = [];
@@ -421,7 +423,7 @@ function setSplit(orig, clone) {
 	orig.setAttribute("data-split-to", clone.getAttribute("data-ref"));
 }
 
-function cloneNodeAncestor (node, deep=false) {
+function cloneNodeAncestor(node, deep = false) {
 	let result = node.cloneNode(deep);
 
 	if (result.hasAttribute("id")) {
@@ -442,7 +444,7 @@ function cloneNodeAncestor (node, deep=false) {
 	return result;
 }
 
-export function rebuildAncestors (node) {
+export function rebuildAncestors(node) {
 	let parent, ancestor;
 	let ancestors = [];
 	let added = [];
@@ -451,7 +453,7 @@ export function rebuildAncestors (node) {
 
 	// Gather all ancestors
 	let element = node;
-	while(element.parentNode && element.parentNode.nodeType === 1) {
+	while (element.parentNode && element.parentNode.nodeType === 1) {
 		ancestors.unshift(element.parentNode);
 		element = element.parentNode;
 	}
@@ -459,7 +461,7 @@ export function rebuildAncestors (node) {
 	for (var i = 0; i < ancestors.length; i++) {
 		ancestor = ancestors[i];
 		parent = ancestor.cloneNode(false);
-	
+
 		parent.setAttribute("data-split-from", parent.getAttribute("data-ref"));
 
 		if (parent.hasAttribute("id")) {
@@ -478,7 +480,7 @@ export function rebuildAncestors (node) {
 		}
 
 		if (added.length) {
-			let container = added[added.length-1];
+			let container = added[added.length - 1];
 			container.appendChild(parent);
 		} else {
 			fragment.appendChild(parent);
@@ -494,7 +496,7 @@ export function rebuildAncestors (node) {
 				parent.parentElement.insertBefore(sib, prev);
 				prev = sib;
 			}
-			
+
 		}
 	}
 
@@ -551,16 +553,16 @@ export function split(bound, cutElement, breakAfter) {
 */
 
 export function needsBreakBefore(node) {
-	if( typeof node !== "undefined" &&
-			typeof node.dataset !== "undefined" &&
-			typeof node.dataset.breakBefore !== "undefined" &&
-			(node.dataset.breakBefore === "always" ||
-			 node.dataset.breakBefore === "page" ||
-			 node.dataset.breakBefore === "left" ||
-			 node.dataset.breakBefore === "right" ||
-			 node.dataset.breakBefore === "recto" ||
-			 node.dataset.breakBefore === "verso")
-		 ) {
+	if (typeof node !== "undefined" &&
+		typeof node.dataset !== "undefined" &&
+		typeof node.dataset.breakBefore !== "undefined" &&
+		(node.dataset.breakBefore === "always" ||
+			node.dataset.breakBefore === "page" ||
+			node.dataset.breakBefore === "left" ||
+			node.dataset.breakBefore === "right" ||
+			node.dataset.breakBefore === "recto" ||
+			node.dataset.breakBefore === "verso")
+	) {
 		return true;
 	}
 
@@ -568,16 +570,16 @@ export function needsBreakBefore(node) {
 }
 
 export function needsBreakAfter(node) {
-	if( typeof node !== "undefined" &&
-			typeof node.dataset !== "undefined" &&
-			typeof node.dataset.breakAfter !== "undefined" &&
-			(node.dataset.breakAfter === "always" ||
-			 node.dataset.breakAfter === "page" ||
-			 node.dataset.breakAfter === "left" ||
-			 node.dataset.breakAfter === "right" ||
-			 node.dataset.breakAfter === "recto" ||
-			 node.dataset.breakAfter === "verso")
-		 ) {
+	if (typeof node !== "undefined" &&
+		typeof node.dataset !== "undefined" &&
+		typeof node.dataset.breakAfter !== "undefined" &&
+		(node.dataset.breakAfter === "always" ||
+			node.dataset.breakAfter === "page" ||
+			node.dataset.breakAfter === "left" ||
+			node.dataset.breakAfter === "right" ||
+			node.dataset.breakAfter === "recto" ||
+			node.dataset.breakAfter === "verso")
+	) {
 		return true;
 	}
 
@@ -585,16 +587,16 @@ export function needsBreakAfter(node) {
 }
 
 export function needsPreviousBreakAfter(node) {
-	if( typeof node !== "undefined" &&
-			typeof node.dataset !== "undefined" &&
-			typeof node.dataset.previousBreakAfter !== "undefined" &&
-			(node.dataset.previousBreakAfter === "always" ||
-			 node.dataset.previousBreakAfter === "page" ||
-			 node.dataset.previousBreakAfter === "left" ||
-			 node.dataset.previousBreakAfter === "right" ||
-			 node.dataset.previousBreakAfter === "recto" ||
-			 node.dataset.previousBreakAfter === "verso")
-		 ) {
+	if (typeof node !== "undefined" &&
+		typeof node.dataset !== "undefined" &&
+		typeof node.dataset.previousBreakAfter !== "undefined" &&
+		(node.dataset.previousBreakAfter === "always" ||
+			node.dataset.previousBreakAfter === "page" ||
+			node.dataset.previousBreakAfter === "left" ||
+			node.dataset.previousBreakAfter === "right" ||
+			node.dataset.previousBreakAfter === "recto" ||
+			node.dataset.previousBreakAfter === "verso")
+	) {
 		return true;
 	}
 
@@ -625,7 +627,7 @@ export function needsPageBreak(node, previousSignificantNode) {
 	return currentNodePage !== previousSignificantNodePage;
 }
 
-export function *words(node) {
+export function* words(node) {
 	let currentText = node.nodeValue;
 	let max = currentText.length;
 	let currentOffset = 0;
@@ -658,7 +660,7 @@ export function *words(node) {
 	}
 }
 
-export function *letters(wordRange) {
+export function* letters(wordRange) {
 	let currentText = wordRange.startContainer;
 	let max = currentText.length;
 	let currentOffset = wordRange.startOffset;
@@ -666,15 +668,15 @@ export function *letters(wordRange) {
 
 	let range;
 
-	while(currentOffset < max) {
-		 // currentLetter = currentText[currentOffset];
-		 range = document.createRange();
-		 range.setStart(currentText, currentOffset);
-		 range.setEnd(currentText, currentOffset+1);
+	while (currentOffset < max) {
+		// currentLetter = currentText[currentOffset];
+		range = document.createRange();
+		range.setStart(currentText, currentOffset);
+		range.setEnd(currentText, currentOffset + 1);
 
-		 yield range;
+		yield range;
 
-		 currentOffset += 1;
+		currentOffset += 1;
 	}
 }
 
@@ -748,7 +750,7 @@ export function isContainer(node) {
 	return container;
 }
 
-export function cloneNode(n, deep=false) {
+export function cloneNode(n, deep = false) {
 	return n.cloneNode(deep);
 }
 
@@ -759,8 +761,12 @@ export function inIndexOfRefs(node, doc) {
 }
 
 export function replaceOrAppendElement(parentNode, child) {
+	if (parentNode == null) return;
+
 	if (!isText(child)) {
 		let childRef = child.getAttribute("data-ref");
+
+
 		for (let index = 0; index < parentNode.children.length; index++) {
 			if (parentNode.children[index].getAttribute("data-ref") == childRef) {
 				parentNode.replaceChild(child, parentNode.childNodes[index]);
@@ -774,6 +780,9 @@ export function replaceOrAppendElement(parentNode, child) {
 
 export function findElement(node, doc, forceQuery) {
 	if (!doc) return;
+
+	if (!node) return;
+
 	const ref = node.getAttribute("data-ref");
 	return findRef(ref, doc, forceQuery);
 }
@@ -847,8 +856,8 @@ export function isVisible(node) {
 	if (isElement(node) && window.getComputedStyle(node).display !== "none") {
 		return true;
 	} else if (isText(node) &&
-			hasTextContent(node) &&
-			window.getComputedStyle(node.parentNode).display !== "none") {
+		hasTextContent(node) &&
+		window.getComputedStyle(node.parentNode).display !== "none") {
 		return true;
 	}
 	return false;
@@ -858,7 +867,7 @@ export function hasContent(node) {
 	if (isElement(node)) {
 		return true;
 	} else if (isText(node) &&
-			node.textContent.trim().length) {
+		node.textContent.trim().length) {
 		return true;
 	}
 	return false;
@@ -874,7 +883,7 @@ export function hasTextContent(node) {
 			}
 		}
 	} else if (isText(node) &&
-			node.textContent.trim().length) {
+		node.textContent.trim().length) {
 		return true;
 	}
 	return false;
@@ -1030,6 +1039,8 @@ export function parentOf(node, nodeName, limiter) {
  *  2) null if no such node exists.
  */
 export function nextSignificantNode(sib) {
+	if (!sib) return;
+
 	while ((sib = sib.nextSibling)) {
 		if (!isIgnorable(sib)) return sib;
 	}
@@ -1047,7 +1058,7 @@ export function filterTree(content, func, what) {
 	let node;
 	let current;
 	node = treeWalker.nextNode();
-	while(node) {
+	while (node) {
 		current = node;
 		node = treeWalker.nextNode();
 		current.parentNode.removeChild(current);
